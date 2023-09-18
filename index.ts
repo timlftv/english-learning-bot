@@ -38,10 +38,16 @@ const translateRequest = async () => {
   
   try {
     const response = await axios.request(options);
-    console.log(response.data);
+    
+    // Extract the translated text
+    const translatedText = response.data[0].translations[0].text;
+    
+    console.log('Original Text: ' + options.data[0].Text);
+    console.log('Translated Text: ' + translatedText);
   } catch (error) {
     console.error(error);
   }
 }
 
 translateRequest();
+
