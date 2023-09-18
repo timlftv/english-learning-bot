@@ -1,4 +1,5 @@
 // import {d } from 'dotenv';
+import axios from 'axios'
 // import { Telegraf } from 'telegraf';
 // import { message } from 'telegraf/filters';
 
@@ -14,28 +15,33 @@
 // process.once('SIGTERM', () => bot.stop('SIGTERM'))
 
 const translateRequest = async () => {
-    try {
-        const options = {
-            method: 'GET',
-            params: {
-              text: 'Привіт',
-              to: 'en',
-              from: 'ua'
-            },
-            headers: {
-              'X-RapidAPI-Key': 'SIGN-UP-FOR-KEY',
-              'X-RapidAPI-Host': 'nlp-translation.p.rapidapi.com'
-            }
-          };
-          
-          try {
-              const response = await fetch('https://nlp-translation.p.rapidapi.com/v1/translate', options);
-              console.log(response.json());
-          } catch (error) {
-              console.error(error);
-          }
-    } catch (error) {
-    
-        console.log(error);
-    }
+  const options = {
+    method: 'POST',
+    url: 'https://microsoft-translator-text.p.rapidapi.com/translate',
+    params: {
+      'to[0]': 'uk',
+      'api-version': '3.0',
+      profanityAction: 'NoAction',
+      textType: 'plain'
+    },
+    headers: {
+      'content-type': 'application/json',
+      'X-RapidAPI-Key': 'e07b4510bbmsh1ba7fed02213d11p17cae5jsnfe881257ef5e',
+      'X-RapidAPI-Host': 'microsoft-translator-text.p.rapidapi.com'
+    },
+    data: [
+      {
+        Text: 'I would really like to drive your car around the block a few times.'
+      }
+    ]
+  };
+  
+  try {
+    const response = await axios.request(options);
+    console.log(response.data);
+  } catch (error) {
+    console.error(error);
+  }
 }
+
+translateRequest();
