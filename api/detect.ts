@@ -1,6 +1,5 @@
-export const translate = async (text: string, from?: string, to?: string) => {
-    const url =
-        'https://microsoft-translator-text.p.rapidapi.com/translate?to%5B0%5D=uk&api-version=3.0&from=en&profanityAction=NoAction&textType=plain'
+export const detect = async (text: string) => {
+    const url = 'https://microsoft-translator-text.p.rapidapi.com/Detect?api-version=3.0'
     const options = {
         method: 'POST',
         headers: {
@@ -17,10 +16,10 @@ export const translate = async (text: string, from?: string, to?: string) => {
 
     try {
         const response = await fetch(url, options)
-        const result = JSON.parse(await response.text())[0].translations[0].text
-
+        const result = JSON.parse(await response.text())[0].language
+        
         return result
     } catch (error) {
-        console.error(error)
+        console.error("detect is unavailable")
     }
 }

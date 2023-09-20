@@ -1,6 +1,6 @@
-export const translate = async (text: string, from?: string, to?: string) => {
+export const dictionaryLookup = async (text: string, from?: string, to?: string) => {
     const url =
-        'https://microsoft-translator-text.p.rapidapi.com/translate?to%5B0%5D=uk&api-version=3.0&from=en&profanityAction=NoAction&textType=plain'
+        'https://microsoft-translator-text.p.rapidapi.com/Dictionary/Lookup?to=uk&api-version=3.0&from=en'
     const options = {
         method: 'POST',
         headers: {
@@ -17,10 +17,16 @@ export const translate = async (text: string, from?: string, to?: string) => {
 
     try {
         const response = await fetch(url, options)
-        const result = JSON.parse(await response.text())[0].translations[0].text
+        const words = await JSON.parse(await response.text())[0].translations
+        // console.log("words: ", words)
+
+        let result = '| '
+        words.forEach((word: any) => {
+            result += word.displayTarget + ' | '
+        })
 
         return result
     } catch (error) {
-        console.error(error)
+        console.error('dictionary lookup error: ', error)
     }
 }
